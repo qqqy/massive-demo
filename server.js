@@ -1,14 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const massive = require('massive')
-const connectionString = 'postgres://zxdpqnmcmvllse:0d7091c34124fefe2faeb9b9cdb160b98da590372abe1aee64bd96a5b99110fa@ec2-54-83-197-230.compute-1.amazonaws.com:5432/d2qom1pm1nih91?ssl=true'
+require("dotenv").config();
 
+const {CONNECTION_STRING, PORT} = process.env
 
 
 const app = express();
 app.use(bodyParser.json());
-
-const port = 3000;
 
 // DEM DAT STUDY //
 
@@ -43,10 +42,10 @@ app.post('/incidents', (req, res) => {
   }).catch(err => {res.status(400).send(err.message)})
 });
 
-massive(connectionString).then(connection => {
+massive(CONNECTION_STRING).then(connection => {
   app.set('db' , connection)
-  app.listen(port, () => {
-  console.log('Started server on port', port);
+  app.listen(PORT, () => {
+  console.log('Started server on port', PORT);
   });
   // console.log(connection)
 })
